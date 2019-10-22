@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-import Task1
+import Model
 
 
 top =Tk()
@@ -44,10 +44,10 @@ l7.place(x=700,y=350)
 
 ########################################################################
 #Buttons
-drawButton=Button(top, text="Draw Iris Data",command = task1.DrawIrisData)
+drawButton=Button(top, text="Draw Iris Data",command = Model.DrawIrisData)
 drawButton.place(x=200,y=450)
 
-runButton=Button(top, text="Run",command = task1.perceptron)
+runButton=Button(top, text="Run",command = Model.perceptron)
 runButton.place(x=600,y=450)
 
 ########################################################################

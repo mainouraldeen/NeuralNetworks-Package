@@ -99,7 +99,7 @@ def main():
     # msh 3arfa hn-test ezay, hnb3t X_train ezay? element element wala vector??
 
 
-main()
+#main()
 
 
 '''# Loading data
