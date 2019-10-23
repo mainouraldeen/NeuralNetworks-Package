@@ -6,7 +6,6 @@ top = Tk()
 top.geometry("1000x500")
 
 
-########################################################################
 # Functions
 def collectData():
     feature1 = feature1var.get()
@@ -16,26 +15,26 @@ def collectData():
     learningRate = LearningRatetextBox.get()
     epochs = EpochstextBox.get()
     bias = biasvar.get()
-    '''
+
     if (class1 == "Iris-setosa"):
-        class1 = "001"
+        class1 = -1
     if (class1 == "Iris-versicolor"):
-        class1 = "010"
+        class1 = 0
     if (class1 == "Iris-virginica"):
-        class1 = "100"
+        class1 = 1
 
     if (class2 == "Iris-setosa"):
-        class2 = "001"
+        class2 = -1
     if (class2 == "Iris-versicolor"):
-        class2 = "010"
+        class2 = 0
     if (class2 == "Iris-virginica"):
-        class2 = "100" 
-    '''
-    print(feature1, feature2, class1, class2, learningRate, epochs, bias)
+        class2 = 1
+
+    Model.main(feature1, feature2, class1, class2, learningRate, epochs, bias)
 
 
-########################################################################
 # labels
+# region
 var = StringVar()
 l1 = Label(top, textvariable=var)
 var.set("Feature 1")
@@ -70,26 +69,29 @@ var = StringVar()
 l7 = Label(top, textvariable=var)
 var.set("Bias")
 l7.place(x=700, y=350)
+# endregion
 
-########################################################################
 # Buttons
-drawButton = Button(top, text="Draw Iris Data", command=Model.DrawData)
+# region
+drawButton = Button(top, text="Draw Iris Data", command=Model.DrawIrisData)
 drawButton.place(x=200, y=450)
 
 runButton = Button(top, text="Run", command=collectData)
 runButton.place(x=600, y=450)
+# endregion
 
-########################################################################
 # TextBoxs
+# region
 LearningRatetextBox = Entry(top)
 LearningRatetextBox.place(x=140, y=350)
 LearningRatetextBox.focus_set()
 
 EpochstextBox = Entry(top)
 EpochstextBox.place(x=480, y=350)
+# endregion
 
-########################################################################
 # DropBox
+# region
 feature1DropBox = Frame(top)
 feature1DropBox.place(y=50, x=120)
 feature1var = StringVar(top)
@@ -129,7 +131,7 @@ choices = {'0', '1'}
 biasvar.set('1')  # set the default option
 popupMenu = OptionMenu(biasDropBox, biasvar, *choices)
 popupMenu.grid(row=2, column=1)
-########################################################################
+# endregion
 
-
+# main
 top.mainloop()

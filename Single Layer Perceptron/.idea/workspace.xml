@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61b53b6f-6c64-416b-b57e-2b576d130eed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Single Layer Perceptron.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Single Layer Perceptron.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IrisData.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,17 +14,23 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Single_Layer_Perceptron$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1571790852033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Single_Layer_Perceptron$Model.coverage" NAME="Model Coverage Results" MODIFIED="1571834232831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Single_Layer_Perceptron$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1571870223537" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Single_Layer_Perceptron$simple_linear_regression.coverage" NAME="simple_linear_regression Coverage Results" MODIFIED="1571833881386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="E:/KOLYA/4th year/1st term/Machine learning/Labs/Lab2" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
+            <state relative-caret-position="240">
+              <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
               <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#140#845#0" />
+                <element signature="e#857#865#0" />
+                <element signature="e#1554#1562#0" />
+                <element signature="e#1782#1790#0" />
+                <element signature="e#1981#1989#0" />
               </folding>
             </state>
           </provider>
@@ -34,21 +39,56 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="58" column="44" lean-forward="true" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
+            <state relative-caret-position="441">
+              <caret line="349" lean-forward="true" selection-start-line="349" selection-end-line="349" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#149#1732#0" />
-                <element signature="e#2084#3718#0" />
-                <element signature="e#156#189#0" />
-                <element signature="e#220#414#0" />
-                <element signature="e#494#1028#0" />
+                <element signature="e#211#1794#0" />
+                <element signature="e#1815#2058#0" />
+                <element signature="e#2086#3112#0" />
+                <element signature="e#2106#2213#0" />
+                <element signature="e#2992#3112#0" />
+                <element signature="e#1805#1813#0" />
+                <element signature="e#1969#2139#1" />
+                <element signature="e#3535#4858#0" />
+                <element signature="e#2308#2397#0" />
+                <element signature="e#2424#2516#0" />
+                <element signature="e#2543#2635#0" />
+                <element signature="e#3988#4072#0" />
+                <element signature="e#4106#4211#0" />
+                <element signature="e#4248#4339#0" />
+                <element signature="e#4626#4828#0" />
+                <element signature="e#3551#4494#0" />
+                <element signature="e#4521#7890#0" />
+                <element signature="e#7915#7948#0" />
+                <element signature="e#7979#8042#0" />
+                <element signature="e#8151#9014#0" />
+                <element signature="e#8257#8997#0" />
+                <element signature="e#8235#8939#0" />
+                <element signature="e#8795#8939#0" />
+                <element signature="e#10000#11190#0" />
+                <element signature="e#10408#10521#0" />
+                <element signature="e#10643#10686#0" />
+                <element signature="e#10619#10662#0" />
+                <element signature="e#10698#10741#0" />
+                <element signature="e#10777#10820#0" />
+                <element signature="e#10879#10922#0" />
+                <element signature="e#10958#11001#0" />
+                <element signature="e#11037#11080#0" />
+                <element signature="e#11116#11159#0" />
+                <element signature="e#10866#10904#0" />
+                <element signature="e#11035#11190#1" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>2</find>
+      <find>iloc</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -57,14 +97,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Task1.py" />
+        <option value="E:/KOLYA/4th year/1st term/Machine learning/Labs/Lab2/simple_linear_regression.py" />
         <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/Model.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="width" value="1378" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="697" />
     <option name="height" value="735" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -106,7 +148,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.GUI">
     <configuration name="GUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Single Layer Perceptron" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -129,9 +171,55 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Model" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Single Layer Perceptron" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Model.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="simple_linear_regression" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Single Layer Perceptron" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="E:/KOLYA/4th year/1st term/Machine learning/Labs/Lab2" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="E:/KOLYA/4th year/1st term/Machine learning/Labs/Lab2/simple_linear_regression.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.GUI" />
+        <item itemvalue="Python.Model" />
+        <item itemvalue="Python.simple_linear_regression" />
       </list>
     </recent_temporary>
   </component>
@@ -146,23 +234,34 @@
       <option name="presentableId" value="Default" />
       <updated>1571738803108</updated>
       <workItem from="1571738831008" duration="2067000" />
-      <workItem from="1571766271772" duration="19321000" />
+      <workItem from="1571766271772" duration="19693000" />
+      <workItem from="1571822883801" duration="269000" />
+      <workItem from="1571828402311" duration="10236000" />
+      <workItem from="1571845888792" duration="13935000" />
     </task>
+    <task id="LOCAL-00001" summary="draw Iris data function.">
+      <created>1571791200447</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571791200459</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21388000" />
+    <option name="totallyTimeSpent" value="46200000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14447807" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1505295" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Debug" order="2" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="5" />
@@ -179,11 +278,43 @@
       <window_info anchor="right" id="R Graphics" order="4" />
       <window_info anchor="right" id="R Packages" order="5" />
       <window_info anchor="right" id="Database" order="6" />
-      <window_info active="true" anchor="right" id="Run" order="7" visible="true" weight="0.14069591" />
+      <window_info active="true" anchor="right" id="Run" order="7" visible="true" weight="0.14599092" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="draw Iris data function." />
+    <option name="LAST_COMMIT_MESSAGE" value="draw Iris data function." />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="len(f1Train)" language="Python" />
+        <watch expression="len(f1Data)" language="Python" />
+        <watch expression="len(c1Test)" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>len(c1Test)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>len(f1Data)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>len(f1Train)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://D:/Anaconda3/envs/ml/Lib/site-packages/numpy/_distributor_init.py">
@@ -207,27 +338,119 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GUI.py">
+    <entry file="file://D:/Anaconda3/Lib/site-packages/sklearn/linear_model/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="236" selection-start-line="236" selection-end-line="236" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/KOLYA/4th year/1st term/Machine learning/Labs/Lab2/simple_linear_regression.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
-          <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
+          <caret line="20" column="13" lean-forward="true" selection-start-line="20" selection-end-line="21" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda3/Lib/site-packages/sklearn/utils/validation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="440" selection-start-line="440" selection-end-line="440" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda3/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="482" selection-start-line="482" selection-end-line="482" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda3/Lib/site-packages/pandas/core/internals.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="4745" selection-start-line="4745" selection-end-line="4745" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda3/Lib/site-packages/pandas/core/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="405" lean-forward="true" selection-start-line="405" selection-end-line="405" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda3/Lib/site-packages/pandas/core/indexes/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="3102" selection-start-line="3102" selection-end-line="3102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda3/Lib/site-packages/pandas/core/series.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="765" selection-start-line="765" selection-end-line="765" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+          <folding>
+            <element signature="e#140#845#0" />
+            <element signature="e#857#865#0" />
+            <element signature="e#1554#1562#0" />
+            <element signature="e#1782#1790#0" />
+            <element signature="e#1981#1989#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="58" column="44" lean-forward="true" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
+        <state relative-caret-position="441">
+          <caret line="349" lean-forward="true" selection-start-line="349" selection-end-line="349" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#149#1732#0" />
-            <element signature="e#2084#3718#0" />
-            <element signature="e#156#189#0" />
-            <element signature="e#220#414#0" />
-            <element signature="e#494#1028#0" />
+            <element signature="e#211#1794#0" />
+            <element signature="e#1815#2058#0" />
+            <element signature="e#2086#3112#0" />
+            <element signature="e#2106#2213#0" />
+            <element signature="e#2992#3112#0" />
+            <element signature="e#1805#1813#0" />
+            <element signature="e#1969#2139#1" />
+            <element signature="e#3535#4858#0" />
+            <element signature="e#2308#2397#0" />
+            <element signature="e#2424#2516#0" />
+            <element signature="e#2543#2635#0" />
+            <element signature="e#3988#4072#0" />
+            <element signature="e#4106#4211#0" />
+            <element signature="e#4248#4339#0" />
+            <element signature="e#4626#4828#0" />
+            <element signature="e#3551#4494#0" />
+            <element signature="e#4521#7890#0" />
+            <element signature="e#7915#7948#0" />
+            <element signature="e#7979#8042#0" />
+            <element signature="e#8151#9014#0" />
+            <element signature="e#8257#8997#0" />
+            <element signature="e#8235#8939#0" />
+            <element signature="e#8795#8939#0" />
+            <element signature="e#10000#11190#0" />
+            <element signature="e#10408#10521#0" />
+            <element signature="e#10643#10686#0" />
+            <element signature="e#10619#10662#0" />
+            <element signature="e#10698#10741#0" />
+            <element signature="e#10777#10820#0" />
+            <element signature="e#10879#10922#0" />
+            <element signature="e#10958#11001#0" />
+            <element signature="e#11037#11080#0" />
+            <element signature="e#11116#11159#0" />
+            <element signature="e#10866#10904#0" />
+            <element signature="e#11035#11190#1" />
           </folding>
         </state>
       </provider>
