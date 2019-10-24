@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+
 import Model
 
 top = Tk()
@@ -16,18 +16,18 @@ def collectData():
     epochs = EpochstextBox.get()
     bias = biasvar.get()
 
-    if (class1 == "Iris-setosa"):
+    if class1 == "Iris-setosa":
         class1 = -1
-    if (class1 == "Iris-versicolor"):
+    if class1 == "Iris-versicolor":
         class1 = 0
-    if (class1 == "Iris-virginica"):
+    if class1 == "Iris-virginica":
         class1 = 1
 
-    if (class2 == "Iris-setosa"):
+    if class2 == "Iris-setosa":
         class2 = -1
-    if (class2 == "Iris-versicolor"):
+    if class2 == "Iris-versicolor":
         class2 = 0
-    if (class2 == "Iris-virginica"):
+    if class2 == "Iris-virginica":
         class2 = 1
 
     Model.main(feature1, feature2, class1, class2, learningRate, epochs, bias)

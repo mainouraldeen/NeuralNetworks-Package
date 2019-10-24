@@ -1,10 +1,26 @@
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib
 from sklearn import preprocessing
-from sklearn import linear_model
-from sklearn import metrics
+# from sklearn.metrics import confusion_matrix
+
+#
+# def draw_confusion_matrix(y_test, y_predict):
+#     lbls = ["Iris-setosa", "Iris-versicolor", "Iris-virginica"]
+#     print("y test type", type(y_test))
+#     print("y test shape", y_test.shape)
+#     print("y_predict type", type(y_predict))
+#     print("y_predict shape", y_predict.shape)
+#     confusion = confusion_matrix(y_test, y_predict, labels=lbls)
+    # print("confusion", confusion)
+    # print("confusion shape", confusion.shape)
+    # print("confusion type", type(confusion))
+
+    # df_cm = pd.DataFrame(confusion, index=[i for i in lbls],
+    #                      columns=[i for i in lbls)
+    # plt.figure(figsize=(10, 7))
+    # sn.heatmap(df_cm, annot=True)
 
 
 def load_data(data):
@@ -104,7 +120,7 @@ labeled_Y_test = le.transform(target_test)
 
 # endregion
 
-def testing(f1Data, f2Data, c1, c2, w1, w2, b):
+def testing(f1Data, f2Data, c1, c2, w1, w2, b):  # if no bias: ab3t hna b = 0
     correct = 0
     f1Test, f2Test, c1Test, c2Test, classTest = [], [], [], [], []
 
@@ -136,16 +152,25 @@ def testing(f1Data, f2Data, c1, c2, w1, w2, b):
 
     classTest = np.append(c1Test, c2Test)
     classTest.sort()
+    test_predictions = np.empty([40, 1])
+    test_vector = np.array([f1Test, f2Test])
+    print("test vector type", type(test_vector))
+    print("test vector shape", (test_vector).shape)
+    weights_vector = np.array([w1, w2])
+    print("weights_vector type", type(weights_vector))
+    print("weights_vector shape", (weights_vector).shape)
 
     for i in range(40):
-        prediction = np.dot(w1, f1Test[i]) + np.dot(w2, f2Test[i]) + b
+        # prediction = np.dot(w1, f1Test[i]) + np.dot(w2, f2Test[i]) + b
+        prediction = np.dot(weights_vector, test_vector[:, i]).reshape(1, 1) + b
         yHat = signum(prediction)
+        test_predictions[i, 0] = yHat
         error = classTest[i] - yHat
         if error == 0:
             correct += 1
 
     accuracy = (correct / 40) * 100
-    return accuracy
+    return accuracy, test_predictions
 
 
 def drawLine(feature1Data, feature2Data, classData, w1, w2, b):
@@ -187,7 +212,7 @@ def DrawIrisData():
     cb.set_ticks(loc)
     cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
     plt._show()
-    drawLine(x1, x2, label)
+
     #################x1,X3#################
     x1 = X1_train.append(X1_test)
     x3 = X3_train.append(X3_test)
@@ -269,10 +294,6 @@ def DrawIrisData():
     plt._show()
 
 
-def perceptron():
-    print("doneeeeeeeeeeeeeeee algo")
-
-
 def signum(prediction):
     if prediction > 0:
         return 1
@@ -280,29 +301,29 @@ def signum(prediction):
         return -1
 
 
+# X:(2, m)
 def perceptron_model(X, Y, alpha, epochs, bias):
-    w = list(np.random.rand(1, 2))
-    b = 0  # np.random.rand(1, 1)
-    for i in range(int(epochs)):
+    w = np.random.rand(1, 2)
+    b = 0
+    for i in range(epochs):
         for j in range(len(X)):
-            res = np.dot(w[0], X[:, j].reshape(2, 1))  # .reshape(1, 1)
-            res = res[0]
-            print("res", res)
-
-            print("res type", type(res))
-
-            prediction = (res + b)
-            prediction = prediction.reshape(1, 1)
-            # prediction = prediction[0]
-            print("pre = ", prediction)
-            y_hat = signum(prediction)
-            print("pre type", type(prediction))
-            print("pre shape", prediction.shape)
-            print("--------------------------------")
-            if y_hat != Y[j]:
-                error = Y[j] - y_hat
-                w[0] = w[0] + (alpha * error.reshape(1, 1) * X[:, j].reshape(2, 1))
-                b = b + (alpha * error)
+            if bias == 1:
+                prediction = np.dot(w, X[:, j]).reshape(1, 1) + b
+            else:
+                prediction = np.dot(w, X[:, j]).reshape(1, 1)
+            yHat = signum(prediction)
+            if Y[j] != yHat:
+                error = Y[j] - yHat
+                error = error[0]
+                # print("error", error)
+                # print("error type", type(error))
+                # print("error shape", error.shape)
+                # W: (1, 2), X: (2, 1)
+                # print("(error * alpha * X[:, j]).T", (error * alpha * X[:, j]).T)
+                # print("type (error * alpha * X[:, j]).T", type((error * alpha * X[:, j]).T))
+                # print("shape (error * alpha * X[:, j]).T", ((error * alpha * X[:, j]).T).shape)
+                w = w + (error * alpha * X[:, j]).T
+                b = b + (error * alpha)  # hl n8air el error w n5alih int msh ndarray????
 
     return w, b
 
@@ -310,6 +331,7 @@ def perceptron_model(X, Y, alpha, epochs, bias):
 def main(feature1, feature2, class1, class2, alpha, epochs, bias):
     X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
     X4_test, labeled_Y_train, labeled_Y_test = makeCleanData()
+
     f1Train, f1Test, f2Test, f2Test = [], [], [], []
 
     if feature1 == "X1":  # initialize lists???
@@ -338,14 +360,31 @@ def main(feature1, feature2, class1, class2, alpha, epochs, bias):
         f2Train = X4_train
         f2Test = X4_test
 
-    # input = np.array([f1Train, f2Train])
-    # W, b = perceptron_model(input, labeled_Y_train, alpha, epochs, bias)
-    # W = np.array(W)
+    # input: (2, m)
+    input = np.array([f1Train, f2Train])
+    epochs = int(epochs)
+    bias = int(bias)
+    alpha = float(alpha)
+    W, b = perceptron_model(input, labeled_Y_train, alpha, epochs, bias)
 
     # don't call this fn now
-    '''if class1 < class2:
-        testing(f1Test, f2Test, class1, class2, 1, 1, bias)
+    if class1 < class2:
+        if bias == 1:
+            accuracy, testing_predictions = testing(f1Test, f2Test, class1, class2, W[0, 0], W[0, 1], b)
+        else:
+            accuracy, testing_predictions = testing(f1Test, f2Test, class1, class2, W[0, 0], W[0, 1], 0)
     else:
-        testing(f1Test, f2Test, class2, class1, 1, 1, bias)'''
+        if bias == 1:
+            accuracy, testing_predictions = testing(f1Test, f2Test, class2, class1, W[0, 0], W[0, 1], b)
+        else:
+            accuracy, testing_predictions = testing(f1Test, f2Test, class2, class1, W[0, 0], W[0, 1], 0)
 
+    # if bias == 1:
+    #     drawLine(np.append(f1Train, f1Test), np.append(f2Train, f2Test), np.append(labeled_Y_train, labeled_Y_test),
+    #              W[0, 0], W[0, 1], b)
+    # else:
+    #     drawLine(np.append(f1Train, f1Test), np.append(f2Train, f2Test), np.append(labeled_Y_train, labeled_Y_test),
+    #              W[0, 0], W[0, 1], 0)
+
+    # draw_confusion_matrix(labeled_Y_test, testing_predictions)
 # main()
