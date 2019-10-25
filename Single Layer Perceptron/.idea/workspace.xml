@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61b53b6f-6c64-416b-b57e-2b576d130eed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Single Layer Perceptron.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Single Layer Perceptron.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model.py" afterDir="false" />
@@ -132,11 +130,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tryOpenCv" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Single Layer Perceptron" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/tryOpenCv.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.GUI" />
-        <item itemvalue="Python.edit1 Task1 NN" />
         <item itemvalue="Python.Model" />
+        <item itemvalue="Python.tryOpenCv" />
+        <item itemvalue="Python.edit1 Task1 NN" />
         <item itemvalue="Python.simple_linear_regression" />
       </list>
     </recent_temporary>
@@ -164,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571791200459</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Done perceptron ISA.">
+      <created>1571945280745</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571945280745</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -188,7 +215,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="draw Iris data function." />
-    <option name="LAST_COMMIT_MESSAGE" value="draw Iris data function." />
+    <MESSAGE value="Done perceptron ISA." />
+    <option name="LAST_COMMIT_MESSAGE" value="Done perceptron ISA." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -196,6 +224,13 @@
         <watch expression="len(f1Train)" language="Python" />
         <watch expression="len(f1Data)" language="Python" />
         <watch expression="len(c1Test)" language="Python" />
+        <watch expression="prediction" />
+        <watch expression="classTest[i]" />
+        <watch expression="i" />
+        <watch expression="yHat" />
+        <watch expression="yHat" />
+        <watch expression="test_predictions" />
+        <watch expression="classTest" />
       </configuration>
     </watches-manager>
   </component>

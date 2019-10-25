@@ -3,7 +3,7 @@ from tkinter import *
 import Model
 
 top = Tk()
-top.geometry("1000x500")
+top.geometry("900x500")
 
 
 # Functions
@@ -73,7 +73,7 @@ l7.place(x=700, y=350)
 
 # Buttons
 # region
-drawButton = Button(top, text="Draw Iris Data", command=Model.DrawIrisData)
+drawButton = Button(top, text="Draw Iris Data", command=Model.drawIrisData)
 drawButton.place(x=200, y=450)
 
 runButton = Button(top, text="Run", command=collectData)
@@ -85,9 +85,11 @@ runButton.place(x=600, y=450)
 LearningRatetextBox = Entry(top)
 LearningRatetextBox.place(x=140, y=350)
 LearningRatetextBox.focus_set()
+LearningRatetextBox.insert(0, "0.0001")
 
 EpochstextBox = Entry(top)
 EpochstextBox.place(x=480, y=350)
+EpochstextBox.insert(0, "1000")
 # endregion
 
 # DropBox
@@ -104,7 +106,7 @@ feature2DropBox = Frame(top)
 feature2DropBox.place(y=50, x=500)
 feature2var = StringVar(top)
 choices = {'X1', 'X2', 'X3', 'X4'}
-feature2var.set('X1')  # set the default option
+feature2var.set('X3')  # set the default option
 popupMenu = OptionMenu(feature2DropBox, feature2var, *choices)
 popupMenu.grid(row=2, column=1)
 
@@ -120,7 +122,7 @@ class2DropBox = Frame(top)
 class2DropBox.place(y=200, x=500)
 class2var = StringVar(top)
 choices = {'Iris-setosa', 'Iris-versicolor', 'Iris-virginica'}
-class2var.set('Iris-setosa')  # set the default option
+class2var.set('Iris-versicolor')  # set the default option
 popupMenu = OptionMenu(class2DropBox, class2var, *choices)
 popupMenu.grid(row=2, column=1)
 
