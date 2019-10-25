@@ -2,9 +2,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sn
 from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
-import seaborn as sn
 
 
 #y_test shape (60, 1)
@@ -38,19 +38,19 @@ def draw_confusion_matrix(y_test, y_predict, c1, c2):
     # print("classTest shape", classTest.shape)
     desired.sort(axis=0)
 
-    print("desired after sort")
-    print(desired)
-    print("\n\ny predict")
-    print(y_predict)
+    # print("desired after sort")
+    # print(desired)
+    # print("\n\ny predict")
+    # print(y_predict)
     # print("type y_predict in fn confusion", type(y_predict[0, 0]))
 
     confusion = confusion_matrix(desired, y_predict)  # , labels=["AAAAAAA", "BBBBBB"])
-    print("confusion", confusion)
+    # print("confusion", confusion)
     # print("confusion shape", confusion.shape)
     # print("confusion type", type(confusion))
     #
-    print("lbls")
-    print(lbls)
+    # print("lbls")
+    # print(lbls)
 
     df_cm = pd.DataFrame(list(confusion), index=[i for i in lbls],
                          columns=[i for i in lbls])
@@ -130,7 +130,6 @@ def dataPreprocessing():
     X3_test = X3_test.astype(float)
     X4_test = X4_test.astype(float)
 
-    le = preprocessing.LabelEncoder()
     le.fit(target_train)
     le.fit(target_test)
 
@@ -149,15 +148,8 @@ def dataPreprocessing():
 # public
 # region
 # data = pd.read_csv('IrisData.txt')
-X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, X4_test, labeled_Y_train, labeled_Y_test = dataPreprocessing()
-'''
 le = preprocessing.LabelEncoder()
-le.fit(target_train)
-le.fit(target_test)
-labeled_Y_train = le.transform(target_train)
-labeled_Y_test = le.transform(target_test)
-'''
-
+X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, X4_test, labeled_Y_train, labeled_Y_test = dataPreprocessing()
 
 # endregion
 
@@ -221,6 +213,7 @@ def testing(f1Data, f2Data, c1, c2, w1, w2, b):  # if no bias: ab3t hna b = 0
         # print("type test_pred in fn testing", type(test_predictions[0, 0]))
         error = desired[i] - yHat
         if error == 0:
+            # print("CORRECT", i)
             correct += 1
 
     accuracy = (correct / 40) * 100
@@ -234,20 +227,22 @@ def testing(f1Data, f2Data, c1, c2, w1, w2, b):  # if no bias: ab3t hna b = 0
     return accuracy, test_predictions
 
 # done
-def drawLine(f1, f2, feature1Data, feature2Data, w1, w2, b):
-    color = ['grey', 'blue', 'purple']
-    classData = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
+def drawLine(f1, f2, feature1TestData, feature2TestData, classTestData, w1, w2, b):
+    color = ['grey', 'blue']
+    classTestData += 1
 
-    plt.scatter(feature1Data, feature2Data, c=classData, cmap=matplotlib.colors.ListedColormap(color))
+    plt.scatter(feature1TestData, feature2TestData, c=classTestData, cmap=matplotlib.colors.ListedColormap(color))
     plt.xlabel(f1, fontsize=20)
     plt.ylabel(f2, fontsize=20)
 
     cb = plt.colorbar()
-    loc = np.arange(0, max(classData), max(classData) / float(len(color)))
+    loc = np.arange(0, max(classTestData), max(classTestData) / float(len(color)))
     cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    # line
 
+    lbls = le.inverse_transform(np.unique(classTestData))
+    cb.set_ticklabels(lbls)
+
+    # line
     x2 = 2
     x1 = ((-w2 * x2) - b) / w1  # X1, 2
     point1 = [x1, 2]
@@ -258,7 +253,6 @@ def drawLine(f1, f2, feature1Data, feature2Data, w1, w2, b):
     plt.plot(point1, point2, color='red', linewidth=3)
 
     plt._show()
-
 
 # done
 def drawIrisData():
@@ -435,7 +429,38 @@ def main(feature1, feature2, class1, class2, alpha, epochs, bias):
     alpha = float(alpha)
     W, b = perceptron_model(input, labeled_Y_train, alpha, epochs, bias)
 
-    drawLine(feature1, feature2, f1Train.append(f1Test), f2Train.append(f2Test), W[0, 0], W[0, 1], b)
+    if class1 == -1:
+        c1Test = labeled_Y_test[0:20]
+        newf1Test = f1Test[0:20]
+        newf2Test = f2Test[0:20]
+    elif class1 == 0:
+        c1Test = labeled_Y_test[20:40]
+        newf1Test = f1Test[20:40]
+        newf2Test = f2Test[20:40]
+    elif class1 == 1:
+        c1Test = labeled_Y_test[40:]
+        newf1Test = f1Test[40:]
+        newf2Test = f2Test[40:]
+    if class2 == -1:
+        c2Test = labeled_Y_test[0:20]
+        newf1Test=newf1Test.append(f1Test[0:20])
+        newf2Test=newf2Test.append(f2Test[0:20])
+    elif class2 == 0:
+        c2Test = labeled_Y_test[20:40]
+        newf1Test=newf1Test.append(f1Test[20:40])
+        newf2Test=newf2Test.append(f2Test[20:40])
+    elif class2 == 1:
+        c2Test = labeled_Y_test[40:]
+        newf1Test=newf1Test.append(f1Test[40:])
+        newf2Test=newf2Test.append(f2Test[40:])
+
+    classTestData = np.append(c1Test, c2Test)
+
+    # print("classTestData.shape", classTestData.shape)
+    # print("newf1Test.shape", newf1Test.shape)
+    # print("newf2Test.shape", newf2Test.shape)
+
+    drawLine(feature1, feature2, newf1Test, newf2Test, classTestData, W[0, 0], W[0, 1], b)
 
     if class1 < class2:
         if bias == 1:
