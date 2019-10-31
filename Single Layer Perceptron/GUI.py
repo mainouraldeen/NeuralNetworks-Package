@@ -15,6 +15,8 @@ def collectData():
     learningRate = LearningRatetextBox.get()
     epochs = EpochstextBox.get()
     bias = biasvar.get()
+    testFeature1 = X1TesttextBox.get()
+    testFeature2 = X2TesttextBox.get()
 
     if class1 == "Iris-setosa":
         class1 = -1
@@ -30,7 +32,7 @@ def collectData():
     if class2 == "Iris-virginica":
         class2 = 1
 
-    Model.main(feature1, feature2, class1, class2, learningRate, epochs, bias)
+    Model.main(feature1, feature2, class1, class2, testFeature1, testFeature2, learningRate, epochs, bias)
 
 
 # labels
@@ -69,6 +71,17 @@ var = StringVar()
 l7 = Label(top, textvariable=var)
 var.set("Bias")
 l7.place(x=700, y=350)
+
+var = StringVar()
+l8 = Label(top, textvariable=var)
+var.set("Test feature 1")
+l8.place(x=50, y=400)
+
+var = StringVar()
+l9 = Label(top, textvariable=var)
+var.set("Test feature 2")
+l9.place(x=390, y=400)
+
 # endregion
 
 # Buttons
@@ -85,11 +98,20 @@ runButton.place(x=600, y=450)
 LearningRatetextBox = Entry(top)
 LearningRatetextBox.place(x=140, y=350)
 LearningRatetextBox.focus_set()
-LearningRatetextBox.insert(0, "0.0001")
+LearningRatetextBox.insert(0, "0.01")
 
 EpochstextBox = Entry(top)
 EpochstextBox.place(x=480, y=350)
 EpochstextBox.insert(0, "1000")
+
+X1TesttextBox = Entry(top)
+X1TesttextBox.place(x=140, y=400)
+X1TesttextBox.insert(0, "5")
+
+X2TesttextBox = Entry(top)
+X2TesttextBox.place(x=480, y=400)
+X2TesttextBox.insert(0, "3")
+
 # endregion
 
 # DropBox

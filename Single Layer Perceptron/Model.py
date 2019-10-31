@@ -5,6 +5,7 @@ import pandas as pd
 import seaborn as sn
 from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
+from sklearn.utils import shuffle
 
 
 #y_test shape (60, 1)
@@ -45,7 +46,7 @@ def draw_confusion_matrix(y_test, y_predict, c1, c2):
     # print("type y_predict in fn confusion", type(y_predict[0, 0]))
 
     confusion = confusion_matrix(desired, y_predict)  # , labels=["AAAAAAA", "BBBBBB"])
-    # print("confusion", confusion)
+    print("confusion", confusion)
     # print("confusion shape", confusion.shape)
     # print("confusion type", type(confusion))
     #
@@ -227,6 +228,13 @@ def testing(f1Data, f2Data, c1, c2, w1, w2, b):  # if no bias: ab3t hna b = 0
     return accuracy, test_predictions
 
 # done
+def testInputData(W1, W2, b, testFeature1, testFeature2):
+    prediction = (W1 * float(testFeature1)) + (W2 * float(testFeature2)) + b
+    yHat = signum(prediction)
+    return le.inverse_transform([yHat + 1])
+
+# done
+# done
 def drawLine(f1, f2, feature1TestData, feature2TestData, classTestData, w1, w2, b):
     color = ['grey', 'blue']
     classTestData += 1
@@ -354,11 +362,10 @@ def drawIrisData():
 
 # done
 def signum(prediction):
-    if prediction > 0:
+    if prediction >= 0:
         return 1
     elif prediction < 0:
         return -1
-    return 0
 
 
 # X:(2, m)
@@ -385,12 +392,12 @@ def perceptron_model(X, Y, alpha, epochs, bias):
                 # print("type (error * alpha * X[:, j]).T", type((error * alpha * X[:, j]).T))
                 # print("shape (error * alpha * X[:, j]).T", ((error * alpha * X[:, j]).T).shape)
                 w = w + (error * alpha * X[:, j]).T
-                b = b + (error * alpha)  # hl n8air el error w n5alih int msh ndarray????
+                b = b + (error * alpha)
 
     return w, b
 
 # done
-def main(feature1, feature2, class1, class2, alpha, epochs, bias):
+def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, epochs, bias):
     # X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
     # X4_test, labeled_Y_train, labeled_Y_test = dataPreprocessing()
 
@@ -424,35 +431,55 @@ def main(feature1, feature2, class1, class2, alpha, epochs, bias):
 
     # input: (2, m)
     input = np.array([f1Train, f2Train])
+
+
+
     epochs = int(epochs)
     bias = int(bias)
     alpha = float(alpha)
-    W, b = perceptron_model(input, labeled_Y_train, alpha, epochs, bias)
 
     if class1 == -1:
         c1Test = labeled_Y_test[0:20]
+        c1Train = labeled_Y_train[0:30]
         newf1Test = f1Test[0:20]
         newf2Test = f2Test[0:20]
     elif class1 == 0:
         c1Test = labeled_Y_test[20:40]
+        c1Train = labeled_Y_train[30:60]
+
         newf1Test = f1Test[20:40]
         newf2Test = f2Test[20:40]
     elif class1 == 1:
         c1Test = labeled_Y_test[40:]
+        c1Train = labeled_Y_train[60:]
+
         newf1Test = f1Test[40:]
         newf2Test = f2Test[40:]
     if class2 == -1:
         c2Test = labeled_Y_test[0:20]
+        c2Train = labeled_Y_train[0:30]
         newf1Test=newf1Test.append(f1Test[0:20])
         newf2Test=newf2Test.append(f2Test[0:20])
     elif class2 == 0:
         c2Test = labeled_Y_test[20:40]
+        c2Train = labeled_Y_train[30:60]
+
         newf1Test=newf1Test.append(f1Test[20:40])
         newf2Test=newf2Test.append(f2Test[20:40])
     elif class2 == 1:
         c2Test = labeled_Y_test[40:]
+        c2Train = labeled_Y_train[60:]
+
         newf1Test=newf1Test.append(f1Test[40:])
         newf2Test=newf2Test.append(f2Test[40:])
+
+    labeled_train = np.append(c1Train, c2Train)
+
+
+    print(input.shape)
+    print(labeled_train.shape)
+    input[0],input[1], labeled_train = shuffle(input[0],input[1], labeled_Y_train)
+    W, b = perceptron_model(input, labeled_train, alpha, epochs, bias)
 
     classTestData = np.append(c1Test, c2Test)
 
@@ -486,5 +513,7 @@ def main(feature1, feature2, class1, class2, alpha, epochs, bias):
     # print("type testing_predictions in main", type(testing_predictions[0, 0]))
     # print("testing_predictions shape IN MAIN:", testing_predictions.shape)
     draw_confusion_matrix(labeled_Y_test, testing_predictions, class1, class2)
+
+    print("Predicted class : ", testInputData(W[0, 0], W[0, 1], b, testFeature1, testFeature2))
 
 # main()
