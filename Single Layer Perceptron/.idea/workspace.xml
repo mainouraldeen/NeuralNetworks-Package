@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61b53b6f-6c64-416b-b57e-2b576d130eed" name="Default Changelist" comment="Final Task1.">
+    <list default="true" id="61b53b6f-6c64-416b-b57e-2b576d130eed" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Adaline MSE/GUI.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Adaline MSE/IrisData.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Adaline MSE/Model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Adaline MSE/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Adaline MSE/perceptronModel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,11 +27,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1Scm4hc5p50SM1UUs4Z4yv382rg" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Adaline MSE" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
@@ -208,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572037650451</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Final Task1.">
+      <created>1572513112502</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1572513112502</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -231,11 +244,13 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="draw Iris data function." />
     <MESSAGE value="Done perceptron ISA." />
     <MESSAGE value="Done confusion ISA." />
     <MESSAGE value="Done all." />
-    <option name="LAST_COMMIT_MESSAGE" value="Done all." />
+    <MESSAGE value="Final Task1." />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Task1." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
