@@ -19,20 +19,8 @@ def collectData():
     testFeature2 = X2TesttextBox.get()
     MSEthreshold = MSEtextBox.get()
 
-    if class1 == "Iris-setosa":
-        class1 = -1
-    if class1 == "Iris-versicolor":
-        class1 = 0
-    if class1 == "Iris-virginica":
-        class1 = 1
-
-    if class2 == "Iris-setosa":
-        class2 = -1
-    if class2 == "Iris-versicolor":
-        class2 = 0
-    if class2 == "Iris-virginica":
-        class2 = 1
-
+    if class1 > class2:
+        class1, class2 = class2, class1
     Model.main(feature1, feature2, class1, class2, testFeature1, testFeature2, learningRate, epochs, bias, MSEthreshold)
 
 

@@ -20,11 +20,10 @@ class perceptronModel:
         # self.chosen_feature_test2 = chosen_feature_test2
 
     def signum(self, prediction):
-        if prediction > 0:
+        if prediction >= 0:
             return 1
         elif prediction < 0:
-            return -1
-        return 0
+            return 0
 
     def training(self, MSEthreshold):
         self.weights = np.random.rand(1, 2)
@@ -57,27 +56,23 @@ class perceptronModel:
         for i in range(40):
             prediction = np.dot(self.weights, self.test_vector[:, i]) + self.bias
             yHat = self.signum(prediction)
-            # print("i", i)
             self.test_predictions.append(yHat)
             error = self.Y_test[i] - yHat
+
             if error == 0:
                 correct += 1
 
         self.accuracy = (correct / 40) * 100
-       # self.test_predictions = self.test_predictions.astype(int)
 
         # if prediction[i] != the expected class --> prediction[i] = the other class
         # if condition is true,if the condition is false
-        # print("predictions before change", self.test_predictions)
-        # print("self.Y_test[0]", self.Y_test[0])
-        # print("self.Y_test[-1]", self.Y_test[-1])
-
         self.test_predictions[0:20] = np.where(self.test_predictions[0:20] == self.Y_test[0], self.Y_test[0], self.Y_test[-1])
         self.test_predictions[20:] = np.where(self.test_predictions[20:] == self.Y_test[-1], self.Y_test[-1], self.Y_test[0])
-        # print("predictions after change", self.test_predictions)
+
         return self.accuracy, self.test_predictions
 
     def testInputData(self, testFeature1, testFeature2):
         prediction = (self.weights[0, 0] * float(testFeature1)) + (self.weights[0, 1] * float(testFeature2)) + self.bias
         yHat = self.signum(prediction)
-        return yHat + 1
+
+        return yHat  # + 1
