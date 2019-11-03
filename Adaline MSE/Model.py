@@ -16,6 +16,7 @@ def readFile():
     df = pd.DataFrame(data=data.flatten().reshape(150, 5))
     return df
 
+
 def load_data(data):
     X1_train = data.iloc[:30, 0]
     X1_train = pd.concat([X1_train, data.iloc[50:80, 0]])
@@ -59,8 +60,6 @@ def load_data(data):
     return X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, X4_test, Y_train, Y_test
 
 
-# returns: X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
-#            X4_test, labeled_Y_train, labeled_Y_test
 def dataPreprocessing():
     df = readFile()
     X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
@@ -77,7 +76,7 @@ def dataPreprocessing():
     X4_test = X4_test.astype(float)
 
     # I think we needn't to label Y here
-    #region
+    # region
     le.fit(target_train)
     le.fit(target_test)
 
@@ -88,7 +87,7 @@ def dataPreprocessing():
     labeled_Y_test = le.transform(target_test)
     labeled_Y_test = labeled_Y_test.reshape(len(labeled_Y_test), 1)
     labeled_Y_test -= 1
-    #endregion
+    # endregion
 
     return X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
            X4_test, labeled_Y_train, labeled_Y_test
@@ -98,11 +97,12 @@ def dataPreprocessing():
 # region
 le = preprocessing.LabelEncoder()
 X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, X4_test, labeled_Y_train, labeled_Y_test = dataPreprocessing()
+
+
 # endregion
 
 
 def draw_confusion_matrix(y_test, y_predict, c1, c2):
-
     lbls = []
 
     if c1 == -1:
@@ -120,7 +120,8 @@ def draw_confusion_matrix(y_test, y_predict, c1, c2):
         lbls.append("Iris-virginica")
 
     confusion = confusion_matrix(y_test, y_predict)
-    print("confusion", confusion)
+    print("confusion")
+    print(confusion)
     #
     # print("lbls")
     # print(lbls)
@@ -152,23 +153,23 @@ def drawLine(f1, f2, feature1TestData, feature2TestData, test_Y, w1, w2, b):
     lbls = le.inverse_transform(np.unique(test_Y))
     cb.set_ticklabels(lbls)
 
-    # line
-    x1 = min(feature1TestData) - 1  ## --> x
-    print("W1", w1)
-    print("W2", w2)
-    y1 = ((-w2 * x1) - b) / w1  ## --> y
+    pointX, pointY = [], []
+    x2 = min(feature1TestData) - 5
+    x1 = ((-w2 * x2) - b) / w1
 
-    x2 = max(feature1TestData) + 1  # --> x
-    y2 = ((-w1 * x2) - b) / w2   # x1, X2 ## --> y
-    point1 = [x1, x2]
-    # point2 = [x1, x2[0]]
-    point2 = [y1[0], y2[0]]
-    print("point1", point1)
-    print("point2", point2)
+    pointX.append(x2)
+    pointY.append(x1[0])
 
-    plt.plot(point1, point2, color='red', linewidth=3)
+    x1 = max(feature1TestData) + 5
+    x2 = ((-w1 * x1) - b) / w2
+
+    pointX.append(x1)
+    pointY.append(x2[0])
+
+    plt.plot(pointX, pointY, color='green', linewidth=2)
 
     plt._show()
+
 
 def drawIrisData():
     #################x1,X2#################
@@ -270,8 +271,7 @@ def drawIrisData():
 
 # passing class1, class2 as "strings" not labels
 def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, epochs, use_bias_bool, MSEthreshold):
-
-    f1Train, f1Test, f2Train, f2Test = [], [], [], []
+    f1Train, f1Test, f2Train, f2Test, newf1Train, newf2Train, newf1Test, newf2Test = [], [], [], [], [], [], [], []
 
     epochs = int(epochs)
     use_bias_bool = bool(use_bias_bool)  # boolean
@@ -280,8 +280,8 @@ def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, 
 
     if class2 < class1:
         class1, class2 = class2, class1
-    #extracting features
-    #region
+    # extracting features
+    # region
     if feature1 == "X1":
         f1Train = X1_train
         f1Test = X1_test
@@ -307,10 +307,10 @@ def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, 
     elif feature2 == "X4":
         f2Train = X4_train
         f2Test = X4_test
-#endregion
+    # endregion
 
-    #extracting classes
-    #region
+    # extracting classes
+    # region
     if class1 == "Iris-setosa":
         newf1Test = f1Test[0:20]
         newf2Test = f2Test[0:20]
@@ -330,23 +330,23 @@ def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, 
         newf2Train = f2Train[60:]
 
     if class2 == "Iris-setosa":
-        newf1Test=newf1Test.append(f1Test[0:20])
-        newf2Test=newf2Test.append(f2Test[0:20])
-        newf1Train=newf1Train.append(f1Train[0:30])
-        newf2Train=newf2Train.append(f2Train[0:30])
+        newf1Test = newf1Test.append(f1Test[0:20])
+        newf2Test = newf2Test.append(f2Test[0:20])
+        newf1Train = newf1Train.append(f1Train[0:30])
+        newf2Train = newf2Train.append(f2Train[0:30])
 
     elif class2 == "Iris-versicolor":
-        newf1Test=newf1Test.append(f1Test[20:40])
-        newf2Test=newf2Test.append(f2Test[20:40])
+        newf1Test = newf1Test.append(f1Test[20:40])
+        newf2Test = newf2Test.append(f2Test[20:40])
         newf1Train = newf1Train.append(f1Train[30:60])
         newf2Train = newf2Train.append(f2Train[30:60])
 
     elif class2 == "Iris-virginica":
-        newf1Test=newf1Test.append(f1Test[40:])
-        newf2Test=newf2Test.append(f2Test[40:])
+        newf1Test = newf1Test.append(f1Test[40:])
+        newf2Test = newf2Test.append(f2Test[40:])
         newf1Train = newf1Train.append(f1Train[60:])
         newf2Train = newf2Train.append(f2Train[60:])
-    #endregion
+    # endregion
 
     train_X = np.array([newf1Train, newf2Train])
     test_X = np.array([newf1Test, newf2Test])
@@ -357,8 +357,8 @@ def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, 
     c1Test = np.full(20, class1, dtype=object)
     c2Test = np.full(20, class2, dtype=object)
 
-    train_Y = np.append(c1Train, c2Train)  #strings
-    test_Y = np.append(c1Test, c2Test)  #strings
+    train_Y = np.append(c1Train, c2Train)  # strings
+    test_Y = np.append(c1Test, c2Test)  # strings
 
     le.fit(train_Y)
     le.fit(test_Y)
@@ -372,9 +372,9 @@ def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, 
     train_X[0], train_X[1], train_Y = shuffle(train_X[0], train_X[1], train_Y)
 
     if class1 < class2:
-        Model = perceptronModel(train_X, test_X, class1, class2, train_Y, test_Y, epochs, use_bias_bool, alpha)
+        Model = perceptronModel(train_X, test_X, train_Y, test_Y, epochs, use_bias_bool, alpha)
     else:
-        Model = perceptronModel(train_X, test_X, class2, class1, train_Y, test_Y, epochs, use_bias_bool, alpha)
+        Model = perceptronModel(train_X, test_X, train_Y, test_Y, epochs, use_bias_bool, alpha)
 
     weights, bias = Model.training(MSEthreshold)
     if use_bias_bool == 0:
@@ -392,4 +392,3 @@ def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, 
 
     print("Predicted class : ", le.inverse_transform([yHat]))
     print("-----------------------------------------")
-

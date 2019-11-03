@@ -91,11 +91,11 @@ runButton.place(x=600, y=450)
 LearningRatetextBox = Entry(top)
 LearningRatetextBox.place(x=140, y=350)
 LearningRatetextBox.focus_set()
-LearningRatetextBox.insert(0, "0.0001")
+LearningRatetextBox.insert(0, "0.001")
 
 EpochstextBox = Entry(top)
 EpochstextBox.place(x=480, y=350)
-EpochstextBox.insert(0, "1000")
+EpochstextBox.insert(0, "10000")
 
 X1TesttextBox = Entry(top)
 X1TesttextBox.place(x=140, y=400)
@@ -107,7 +107,7 @@ X2TesttextBox.insert(0, "3")
 
 MSEtextBox = Entry(top)
 MSEtextBox.place(x=100, y=150)
-MSEtextBox.insert(0, "0.05")
+MSEtextBox.insert(0, "0.005")
 # endregion
 
 # DropBox
@@ -140,7 +140,7 @@ class2DropBox = Frame(top)
 class2DropBox.place(y=200, x=500)
 class2var = StringVar(top)
 choices = {'Iris-setosa', 'Iris-versicolor', 'Iris-virginica'}
-class2var.set('Iris-versicolor')  # set the default option
+class2var.set('Iris-virginica')  # set the default option
 popupMenu = OptionMenu(class2DropBox, class2var, *choices)
 popupMenu.grid(row=2, column=1)
 

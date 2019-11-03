@@ -2,11 +2,9 @@ import numpy as np
 
 
 class perceptronModel:
-    def __init__(self, train_vector, test_vector, c1, c2, Y_train, Y_test, epochs, use_bias_bool, alpha):
+    def __init__(self, train_vector, test_vector, Y_train, Y_test, epochs, use_bias_bool, alpha):
         self.train_vector = train_vector
         self.test_vector = test_vector
-        self.chosen_class1 = c1
-        self.chosen_class2 = c2
         self.Y_train = Y_train
         self.Y_test = Y_test
         self.epochs = epochs
@@ -16,8 +14,6 @@ class perceptronModel:
         self.alpha = alpha
         self.test_predictions = []
         self.accuracy = 0
-        # self.chosen_feature_train2 = chosen_feature_train2
-        # self.chosen_feature_test2 = chosen_feature_test2
 
     def signum(self, prediction):
         if prediction >= 0:
@@ -31,43 +27,65 @@ class perceptronModel:
 
         while True:
             MSE = 0
-            for j in range(len(self.train_vector)):
+            for j in range(self.train_vector.shape[1]):
                 if self.use_bias_bool == 1:
                     prediction = np.dot(self.weights, self.train_vector[:, j]) + self.bias
                 else:
                     prediction = np.dot(self.weights, self.train_vector[:, j])
 
                 error = self.Y_train[j] - prediction
-                # error *= 0.5
-                MSE += np.power(error, 2)
                 self.weights = self.weights + (error * self.alpha * self.train_vector[:, j]).T
                 if self.use_bias_bool == 1:
                     self.bias = self.bias + (error * self.alpha)
 
-            MSE /= len(self.train_vector[0])
+            # calc MSE after each epoch
+            for j in range(self.train_vector.shape[1]):
+                if self.use_bias_bool == 1:
+                    prediction = np.dot(self.weights, self.train_vector[:, j]) + self.bias
+                else:
+                    prediction = np.dot(self.weights, self.train_vector[:, j])
+
+                error = np.power((self.Y_train[j] - prediction), 2)
+                MSE += error * 0.5
+
+            MSE /= self.train_vector.shape[1]
             self.epochs -= 1
-            if MSE <= MSEthreshold or self.epochs == 0:  # keda 3omro ma hy3ml BREAK
+            if MSE <= MSEthreshold or self.epochs == 0:
                 break
+        print("Epochs", self.epochs)
+        print("MSE", MSE)
+        print("bias", self.bias)
+        print("weights", self.weights)
         return self.weights, self.bias
 
     def testing(self):
         correct = 0
-        # print("test_vector shape", self.test_vector.shape)
-        for i in range(40):
-            prediction = np.dot(self.weights, self.test_vector[:, i]) + self.bias
+        print("Ytest", self.Y_test)
+        printYhat = []
+
+        for i in range(self.test_vector.shape[1]):
+            if self.use_bias_bool == 1:
+                prediction = np.dot(self.weights, self.test_vector[:, i]) + self.bias
+            else:
+                prediction = np.dot(self.weights, self.test_vector[:, i])
+
             yHat = self.signum(prediction)
             self.test_predictions.append(yHat)
             error = self.Y_test[i] - yHat
+            printYhat.append(yHat)
 
             if error == 0:
                 correct += 1
+        print("Yhat", printYhat)
 
-        self.accuracy = (correct / 40) * 100
+        self.accuracy = (correct / self.test_vector.shape[1]) * 100
 
         # if prediction[i] != the expected class --> prediction[i] = the other class
         # if condition is true,if the condition is false
-        self.test_predictions[0:20] = np.where(self.test_predictions[0:20] == self.Y_test[0], self.Y_test[0], self.Y_test[-1])
-        self.test_predictions[20:] = np.where(self.test_predictions[20:] == self.Y_test[-1], self.Y_test[-1], self.Y_test[0])
+        self.test_predictions[0:20] = np.where(self.test_predictions[0:20] == self.Y_test[0], self.Y_test[0],
+                                               self.Y_test[-1])
+        self.test_predictions[20:] = np.where(self.test_predictions[20:] == self.Y_test[-1], self.Y_test[-1],
+                                              self.Y_test[0])
 
         return self.accuracy, self.test_predictions
 
