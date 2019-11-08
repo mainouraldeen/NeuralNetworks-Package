@@ -1,12 +1,11 @@
 import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-from perceptronModel import *
 import seaborn as sn
 from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
-from sklearn.utils import shuffle
+
+from perceptronModel import *
 
 
 def readFile():
@@ -269,126 +268,27 @@ def drawIrisData():
     plt._show()
 
 
-# passing class1, class2 as "strings" not labels
-def main(feature1, feature2, class1, class2, testFeature1, testFeature2, alpha, epochs, use_bias_bool, MSEthreshold):
-    f1Train, f1Test, f2Train, f2Test, newf1Train, newf2Train, newf1Test, newf2Test = [], [], [], [], [], [], [], []
-
+def main(numOfHiddenLayers, numOfNeurons, alpha, epochs, use_bias_bool, activationFunction):
     epochs = int(epochs)
-    use_bias_bool = bool(use_bias_bool)  # boolean
+    numOfHiddenLayers = int(numOfHiddenLayers)
+    numOfNeurons = np.array(numOfNeurons)
+    numOfNeurons = numOfNeurons.astype(int)
+    use_bias_bool = int(use_bias_bool)  # boolean
     alpha = float(alpha)
-    MSEthreshold = float(MSEthreshold)
-
-    if class2 < class1:
-        class1, class2 = class2, class1
-    # extracting features
-    # region
-    if feature1 == "X1":
-        f1Train = X1_train
-        f1Test = X1_test
-    elif feature1 == "X2":
-        f1Train = X2_train
-        f1Test = X2_test
-    elif feature1 == "X3":
-        f1Train = X3_train
-        f1Test = X3_test
-    elif feature1 == "X4":
-        f1Train = X4_train
-        f1Test = X4_test
-
-    if feature2 == "X1":
-        f2Train = X1_train
-        f2Test = X1_test
-    elif feature2 == "X2":
-        f2Train = X2_train
-        f2Test = X2_test
-    elif feature2 == "X3":
-        f2Train = X3_train
-        f2Test = X3_test
-    elif feature2 == "X4":
-        f2Train = X4_train
-        f2Test = X4_test
-    # endregion
-
-    # extracting classes
-    # region
-    if class1 == "Iris-setosa":
-        newf1Test = f1Test[0:20]
-        newf2Test = f2Test[0:20]
-        newf1Train = f1Train[0:30]
-        newf2Train = f2Train[0:30]
-
-    elif class1 == "Iris-versicolor":
-        newf1Test = f1Test[20:40]
-        newf2Test = f2Test[20:40]
-        newf1Train = f1Train[30:60]
-        newf2Train = f2Train[30:60]
-
-    elif class1 == "Iris-virginica":
-        newf1Test = f1Test[40:]
-        newf2Test = f2Test[40:]
-        newf1Train = f1Train[60:]
-        newf2Train = f2Train[60:]
-
-    if class2 == "Iris-setosa":
-        newf1Test = newf1Test.append(f1Test[0:20])
-        newf2Test = newf2Test.append(f2Test[0:20])
-        newf1Train = newf1Train.append(f1Train[0:30])
-        newf2Train = newf2Train.append(f2Train[0:30])
-
-    elif class2 == "Iris-versicolor":
-        newf1Test = newf1Test.append(f1Test[20:40])
-        newf2Test = newf2Test.append(f2Test[20:40])
-        newf1Train = newf1Train.append(f1Train[30:60])
-        newf2Train = newf2Train.append(f2Train[30:60])
-
-    elif class2 == "Iris-virginica":
-        newf1Test = newf1Test.append(f1Test[40:])
-        newf2Test = newf2Test.append(f2Test[40:])
-        newf1Train = newf1Train.append(f1Train[60:])
-        newf2Train = newf2Train.append(f2Train[60:])
-    # endregion
-
-    train_X = np.array([newf1Train, newf2Train])
-    test_X = np.array([newf1Test, newf2Test])
-
-    c1Train = np.full(30, class1, dtype=object)
-    c2Train = np.full(30, class2, dtype=object)
-
-    c1Test = np.full(20, class1, dtype=object)
-    c2Test = np.full(20, class2, dtype=object)
-
-    train_Y = np.append(c1Train, c2Train)  # strings
-    test_Y = np.append(c1Test, c2Test)  # strings
-
-    le.fit(train_Y)
-    le.fit(test_Y)
-
-    train_Y = le.transform(train_Y)
-    test_Y = le.transform(test_Y)
-
-    class1 = 0
-    class2 = 1
-
-    train_X[0], train_X[1], train_Y = shuffle(train_X[0], train_X[1], train_Y)
-
-    if class1 < class2:
-        Model = perceptronModel(train_X, test_X, train_Y, test_Y, epochs, use_bias_bool, alpha)
-    else:
-        Model = perceptronModel(train_X, test_X, train_Y, test_Y, epochs, use_bias_bool, alpha)
-
-    weights, bias = Model.training(MSEthreshold)
+    print("Bias", use_bias_bool)
+    print("activationFunction", activationFunction)
+    Model = perceptronModel([X1_train, X2_train, X3_train, X4_train], [X1_test, X2_test, X3_test, X4_test],
+                            labeled_Y_train, labeled_Y_test, numOfHiddenLayers, numOfNeurons, alpha, epochs,
+                            use_bias_bool, activationFunction)
     if use_bias_bool == 0:
         bias = 0
 
-    drawLine(feature1, feature2, newf1Test, newf2Test, test_Y, weights[0, 0], weights[0, 1], bias)
+    Model.firstForward()
 
-    accuracy, testing_predictions = Model.testing()
+    # accuracy, testing_predictions = Model.testing()
 
-    print("Overall Accuracy is:", accuracy, "%")
+    # print("Overall Accuracy is:", accuracy, "%")
 
-    draw_confusion_matrix(test_Y, testing_predictions, class1, class2)
+    # draw_confusion_matrix(test_Y, testing_predictions, class1, class2)
 
-    yHat = Model.testInputData(testFeature1, testFeature2)
-
-    print("Predicted class : ", le.inverse_transform([yHat]))
     print("-----------------------------------------")

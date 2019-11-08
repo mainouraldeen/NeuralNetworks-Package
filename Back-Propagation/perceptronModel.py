@@ -2,7 +2,10 @@ import numpy as np
 
 
 class perceptronModel:
-    def __init__(self, train_vector, test_vector, Y_train, Y_test, epochs, use_bias_bool, alpha):
+    # train_vector = (4*90)
+    # test_vector = (4*60)
+    def __init__(self, train_vector, test_vector, Y_train, Y_test, numOfHiddenLayers, numOfNeurons, alpha, epochs,
+                 use_bias_bool, activationFunction):
         self.train_vector = train_vector
         self.test_vector = test_vector
         self.Y_train = Y_train
@@ -14,13 +17,63 @@ class perceptronModel:
         self.alpha = alpha
         self.test_predictions = []
         self.accuracy = 0
+        self.savedActivations = []
+        self.numOfHiddenLayers = numOfHiddenLayers  # int
+        self.numOfNeurons = numOfNeurons  # list shayla 3dd el nuerons fe kol layer 3la 7sb el index
+        self.activationFunction = activationFunction
 
-    def signum(self, prediction):
-        if prediction >= 0:
-            return 1
-        elif prediction < 0:
-            return 0
+    def sigmoid(self, prediction):
+        return (1 / 1 + np.exp(-prediction))
 
+    def sigmoidPrime(self, prediction):
+        dx = self.sigmoid(prediction)
+        return dx(1 - dx)
+
+    def tanh(self, prediction):
+        return ((np.exp(prediction) - np.exp(-prediction)) / (np.exp(prediction) - np.exp(-prediction)))
+
+    def tanhPrime(self, prediction):
+        dx = self.tanh(prediction)
+        return (1 - pow(dx, 2))
+
+    def firstForward(self):
+
+        # initialize random weights matrices
+        for i in range(self.numOfHiddenLayers + 1):  # +1: hidden layers + output layer
+            if i == 0:
+                self.weights.append(np.random.rand(self.numOfNeurons[i], len(self.train_vector)))
+
+            else:
+                self.weights.append(np.random.rand(self.numOfNeurons[i], self.numOfNeurons[i - 1]))
+
+        self.weights = np.asarray(self.weights)
+
+        # Algo:(
+
+        for HL in range(self.numOfHiddenLayers + 1):
+            if self.use_bias_bool == 1:
+                if HL == 0:
+                    prediction = np.dot(self.weights[HL], self.train_vector) + self.bias
+                else:
+                    prediction = np.dot(self.weights[HL], self.savedActivations[HL - 1]) + self.bias
+
+            else:
+                if HL == 0:
+                    prediction = np.dot(self.weights[HL], self.train_vector)
+                else:
+                    prediction = np.dot(self.weights[HL], self.savedActivations[HL - 1])
+
+            if self.activationFunction == "Sigmoid":
+                activation = self.sigmoid(prediction)
+            else:
+                activation = self.tanh(prediction)
+
+            self.savedActivations.append(activation)
+
+        self.savedActivations = np.asarray(self.savedActivations)
+        print(self.savedActivations.shape)
+
+    ############################################################
     def training(self, MSEthreshold):
         self.weights = np.random.rand(1, 2)
         self.bias = np.random.rand()
@@ -94,3 +147,9 @@ class perceptronModel:
         yHat = self.signum(prediction)
 
         return yHat  # + 1
+
+    def signum(self, prediction):
+        if prediction >= 0:
+            return 1
+        elif prediction < 0:
+            return 0
