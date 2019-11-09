@@ -49,8 +49,8 @@ l7.place(x=300, y=300)
 
 # Buttons
 # region
-drawButton = Button(top, text="Draw Iris Data", command=Model.drawIrisData)
-drawButton.place(x=200, y=450)
+# drawButton = Button(top, text="Draw Iris Data", command=Model.drawIrisData)
+# drawButton.place(x=200, y=450)
 
 runButton = Button(top, text="Run", command=collectData)
 runButton.place(x=600, y=450)
@@ -61,11 +61,11 @@ runButton.place(x=600, y=450)
 numOfHiddenLayerstextBox = Entry(top)
 numOfHiddenLayerstextBox.place(x=250, y=50)
 numOfHiddenLayerstextBox.focus_set()
-numOfHiddenLayerstextBox.insert(0, "1")
+numOfHiddenLayerstextBox.insert(0, "2")
 
 numOfNeuornstextBox = Entry(top)
 numOfNeuornstextBox.place(x=550, y=50)
-numOfNeuornstextBox.insert(0, "2,3")
+numOfNeuornstextBox.insert(0, "2,5")
 
 LearningRatetextBox = Entry(top)
 LearningRatetextBox.place(x=140, y=100)

@@ -13,103 +13,140 @@ class perceptronModel:
         self.epochs = epochs
         self.use_bias_bool = use_bias_bool
         self.weights = []
-        self.bias = None
+        self.bias = np.array([])
         self.alpha = alpha
         self.test_predictions = []
         self.accuracy = 0
-        self.savedActivations = []
+        self.savedPredictons = []
         self.numOfHiddenLayers = numOfHiddenLayers  # int
-        self.numOfNeurons = numOfNeurons  # list shayla 3dd el nuerons fe kol layer 3la 7sb el index
+        self.numOfNeurons = numOfNeurons  # list shayla 3dd el neurons fe kol layer 3la 7sb el index
         self.activationFunction = activationFunction
+        self.gradients = []
 
     def sigmoid(self, prediction):
-        return (1 / 1 + np.exp(-prediction))
+        return 1 / 1 + np.exp(-prediction)
 
     def sigmoidPrime(self, prediction):
         dx = self.sigmoid(prediction)
-        return dx(1 - dx)
+        return dx * (1 - dx)
 
     def tanh(self, prediction):
-        return ((np.exp(prediction) - np.exp(-prediction)) / (np.exp(prediction) - np.exp(-prediction)))
+        return (np.exp(prediction) - np.exp(-prediction)) / (np.exp(prediction) - np.exp(-prediction))
 
     def tanhPrime(self, prediction):
         dx = self.tanh(prediction)
-        return (1 - pow(dx, 2))
+        return 1 - pow(dx, 2)
 
     def firstForward(self):
-
         # initialize random weights matrices
+        print("len", self.train_vector.shape)
         for i in range(self.numOfHiddenLayers + 1):  # +1: hidden layers + output layer
             if i == 0:
-                self.weights.append(np.random.rand(self.numOfNeurons[i], len(self.train_vector)))
-
+                self.weights.append(np.random.rand(self.numOfNeurons[i], self.train_vector.shape[0]))
             else:
                 self.weights.append(np.random.rand(self.numOfNeurons[i], self.numOfNeurons[i - 1]))
 
+            print("Weights", self.weights[i].shape)
         self.weights = np.asarray(self.weights)
+        self.bias = np.array(np.random.rand(self.numOfHiddenLayers + 1, 1))
+        # print("bias shape", self.bias.shape)
 
         # Algo:(
-
         for HL in range(self.numOfHiddenLayers + 1):
+            # print("HL", HL)
+            # print("self.train_vector.T", self.train_vector.T.shape)
+            # print("self.weights[HL].T", self.weights[HL].T.shape)
+
             if self.use_bias_bool == 1:
                 if HL == 0:
-                    prediction = np.dot(self.weights[HL], self.train_vector) + self.bias
+                    prediction = np.dot(self.train_vector.T, self.weights[HL].T) + self.bias[HL]
                 else:
-                    prediction = np.dot(self.weights[HL], self.savedActivations[HL - 1]) + self.bias
+                    prediction = np.dot(self.savedPredictons[HL - 1], self.weights[HL].T) + self.bias[HL]
 
             else:
                 if HL == 0:
-                    prediction = np.dot(self.weights[HL], self.train_vector)
+                    prediction = np.dot(self.train_vector.T, self.weights[HL].T)
                 else:
-                    prediction = np.dot(self.weights[HL], self.savedActivations[HL - 1])
+                    e = np.asarray(self.savedPredictons[HL - 1])
+                    prediction = np.dot(e, self.weights[HL].T)
 
+
+            # print("predi", prediction.shape)
+            self.savedPredictons.append(prediction)
+            # print(len(self.savedPredictons))
+
+        # self.savedActivations = np.asarray(self.savedActivations)
+        # print("a5er wa7ed", self.savedPredictons[-1].shape)
+        # print("---------------")
+        # print("weights shape", self.weights.shape)
+
+    def backward(self):
+
+        # calculate error at the output layer
+        if self.activationFunction == "Sigmoid":
+            outputLayerActivation = self.sigmoid(self.savedPredictons[-1])
+        else:
+            outputLayerActivation = self.tanh(self.savedPredictons[-1])
+        output_e = self.Y_train - outputLayerActivation
+        output_E = np.power(output_e, 2) * 0.5  # el mafrod vector wala rqm
+
+        # calculate output gradient:
+        # 1)
+        if self.activationFunction == "Sigmoid":
+            outputLocalGradient = output_e * self.sigmoidPrime(outputLayerActivation)
+        else:
+            outputLocalGradient = output_e * self.tanhPrime(outputLayerActivation)
+
+        # 2)
+        # partial E / partial W_kj
+        self.outputLayerGradient = outputLocalGradient * self.savedPredictons[-1]
+        self.gradients.append(outputLocalGradient)
+        index = 0
+
+        #####
+        # calculate hidden layers gradient:
+        for i in range(self.numOfHiddenLayers - 1, -1, -1):
             if self.activationFunction == "Sigmoid":
-                activation = self.sigmoid(prediction)
+                hiddenLayerGradient = self.sigmoidPrime(self.savedPredictons[i]) * np.dot(self.gradients[index], self.weights[i + 1])
             else:
-                activation = self.tanh(prediction)
+                hiddenLayerGradient = self.tanhPrime(self.savedPredictons[i]) * np.dot(self.gradients[index], self.weights[i + 1])
 
-            self.savedActivations.append(activation)
+            # print(" self.sigmoidPrime(self.savedPredictons[i])", type(self.sigmoidPrime(self.savedPredictons[i])))
+            # print("np.dot(self.gradients[index]", type((self.gradients[index])))
+            # print("self.weights[i + 1]", type(self.weights[i + 1]))
+            self.gradients.append(hiddenLayerGradient)
+            index += 1
 
-        self.savedActivations = np.asarray(self.savedActivations)
-        print(self.savedActivations.shape)
 
-    ############################################################
-    def training(self, MSEthreshold):
-        self.weights = np.random.rand(1, 2)
-        self.bias = np.random.rand()
 
-        while True:
-            MSE = 0
-            for j in range(self.train_vector.shape[1]):
-                if self.use_bias_bool == 1:
-                    prediction = np.dot(self.weights, self.train_vector[:, j]) + self.bias
+    def secondForward(self):
+
+        self.gradients.reverse()
+        print("len", len(self.gradients))
+        for i in range(len(self.gradients)):
+            print("..................")
+            print("weights", self.weights[i].shape)
+            print("gr T", self.gradients[i].T.shape)
+            if i == 0:
+                print("np.dot(self.gradients[i].T, self.train_vector.T)", np.dot(self.gradients[i].T, self.train_vector.T).shape)
+                self.weights[i] = self.weights[i] + self.alpha * np.dot(self.gradients[i].T, self.train_vector.T)
+                # self.bias[i] = self.bias[i] + self.alpha * np.dot(self.gradients[i].T, self.train_vector.T)
+            else:
+                if self.activationFunction == "Sigmoid":
+                    Zj = self.sigmoidPrime(self.savedPredictons[i])
                 else:
-                    prediction = np.dot(self.weights, self.train_vector[:, j])
+                    Zj = self.tanhPrime(self.savedPredictons[i])
 
-                error = self.Y_train[j] - prediction
-                self.weights = self.weights + (error * self.alpha * self.train_vector[:, j]).T
-                if self.use_bias_bool == 1:
-                    self.bias = self.bias + (error * self.alpha)
 
-            # calc MSE after each epoch
-            for j in range(self.train_vector.shape[1]):
-                if self.use_bias_bool == 1:
-                    prediction = np.dot(self.weights, self.train_vector[:, j]) + self.bias
-                else:
-                    prediction = np.dot(self.weights, self.train_vector[:, j])
+                print("z.t", Zj.T.shape)
+                self.weights[i] = self.weights[i] + self.alpha * np.dot(self.gradients[i].T, Zj.T)
+                # self.bias[i] = self.bias[i] + self.alpha * np.dot(self.gradients[i].T, Zj.T)
 
-                error = np.power((self.Y_train[j] - prediction), 2)
-                MSE += error * 0.5
-
-            MSE /= self.train_vector.shape[1]
-            self.epochs -= 1
-            if MSE <= MSEthreshold or self.epochs == 0:
-                break
-        print("Epochs", self.epochs)
-        print("MSE", MSE)
-        print("bias", self.bias)
-        print("weights", self.weights)
-        return self.weights, self.bias
+    def training(self):
+        for i in range(self.epochs):
+            self.firstForward()
+            self.backward()
+            self.secondForward()
 
     def testing(self):
         correct = 0

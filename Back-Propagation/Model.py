@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sn
 from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
+import keras.utils as np_utils
 
 from perceptronModel import *
 
@@ -74,18 +75,19 @@ def dataPreprocessing():
     X3_test = X3_test.astype(float)
     X4_test = X4_test.astype(float)
 
-    # I think we needn't to label Y here
+    # hot encoding for output
     # region
     le.fit(target_train)
     le.fit(target_test)
 
     labeled_Y_train = le.transform(target_train)
     labeled_Y_train = labeled_Y_train.reshape(len(labeled_Y_train), 1)
-    labeled_Y_train -= 1  # to map the classes to (-1, 0 ,1) like the return values of signum function
 
     labeled_Y_test = le.transform(target_test)
     labeled_Y_test = labeled_Y_test.reshape(len(labeled_Y_test), 1)
-    labeled_Y_test -= 1
+
+    labeled_Y_train = np_utils.to_categorical(labeled_Y_train, 3)
+    labeled_Y_test = np_utils.to_categorical(labeled_Y_test, 3)
     # endregion
 
     return X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
@@ -137,154 +139,32 @@ def draw_confusion_matrix(y_test, y_predict, c1, c2):
     plt._show()
 
 
-def drawLine(f1, f2, feature1TestData, feature2TestData, test_Y, w1, w2, b):
-    color = ['grey', 'blue']
-    # test_Y += 1
-
-    plt.scatter(feature1TestData, feature2TestData, c=test_Y, cmap=matplotlib.colors.ListedColormap(color))
-    plt.xlabel(f1, fontsize=20)
-    plt.ylabel(f2, fontsize=20)
-
-    cb = plt.colorbar()
-
-    loc = np.arange(0, max(test_Y), max(test_Y) / float(len(color)))
-    cb.set_ticks(loc)
-    lbls = le.inverse_transform(np.unique(test_Y))
-    cb.set_ticklabels(lbls)
-
-    pointX, pointY = [], []
-    x2 = min(feature1TestData) - 5
-    x1 = ((-w2 * x2) - b) / w1
-
-    pointX.append(x2)
-    pointY.append(x1[0])
-
-    x1 = max(feature1TestData) + 5
-    x2 = ((-w1 * x1) - b) / w2
-
-    pointX.append(x1)
-    pointY.append(x2[0])
-
-    plt.plot(pointX, pointY, color='green', linewidth=2)
-
-    plt._show()
-
-
-def drawIrisData():
-    #################x1,X2#################
-    x1 = X1_train.append(X1_test)
-    x2 = X2_train.append(X2_test)
-    label = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
-    colors = ['grey', 'blue', 'purple']
-
-    plt.scatter(x1, x2, c=label, cmap=matplotlib.colors.ListedColormap(colors))
-    plt.xlabel('X1', fontsize=20)
-    plt.ylabel('X2', fontsize=20)
-
-    cb = plt.colorbar()
-    loc = np.arange(0, max(label), max(label) / float(len(colors)))
-    cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    plt._show()
-
-    #################x1,X3#################
-    x1 = X1_train.append(X1_test)
-    x3 = X3_train.append(X3_test)
-    label = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
-    colors = ['grey', 'blue', 'purple']
-
-    plt.scatter(x1, x3, c=label, cmap=matplotlib.colors.ListedColormap(colors))
-    plt.xlabel('X1', fontsize=20)
-    plt.ylabel('X3', fontsize=20)
-
-    cb = plt.colorbar()
-    loc = np.arange(0, max(label), max(label) / float(len(colors)))
-    cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    plt._show()
-
-    #################x1,X4#################
-    x1 = X1_train.append(X1_test)
-    x4 = X4_train.append(X4_test)
-    label = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
-    colors = ['grey', 'blue', 'purple']
-
-    plt.scatter(x1, x4, c=label, cmap=matplotlib.colors.ListedColormap(colors))
-    plt.xlabel('X1', fontsize=20)
-    plt.ylabel('X4', fontsize=20)
-
-    cb = plt.colorbar()
-    loc = np.arange(0, max(label), max(label) / float(len(colors)))
-    cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    plt._show()
-
-    #################x2,X3#################
-    x2 = X2_train.append(X2_test)
-    x3 = X3_train.append(X3_test)
-    label = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
-    colors = ['grey', 'blue', 'purple']
-
-    plt.scatter(x2, x3, c=label, cmap=matplotlib.colors.ListedColormap(colors))
-    plt.xlabel('X2', fontsize=20)
-    plt.ylabel('X3', fontsize=20)
-
-    cb = plt.colorbar()
-    loc = np.arange(0, max(label), max(label) / float(len(colors)))
-    cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    plt._show()
-
-    #################x2,X4#################
-    x2 = X2_train.append(X2_test)
-    x4 = X4_train.append(X4_test)
-    label = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
-    colors = ['grey', 'blue', 'purple']
-
-    plt.scatter(x2, x4, c=label, cmap=matplotlib.colors.ListedColormap(colors))
-    plt.xlabel('X2', fontsize=20)
-    plt.ylabel('X4', fontsize=20)
-
-    cb = plt.colorbar()
-    loc = np.arange(0, max(label), max(label) / float(len(colors)))
-    cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    plt._show()
-
-    #################x3,X4#################
-    x3 = X3_train.append(X3_test)
-    x4 = X4_train.append(X4_test)
-    label = np.append(labeled_Y_train + 1, labeled_Y_test + 1)
-    colors = ['grey', 'blue', 'purple']
-
-    plt.scatter(x3, x4, c=label, cmap=matplotlib.colors.ListedColormap(colors))
-    plt.xlabel('X3', fontsize=20)
-    plt.ylabel('X4', fontsize=20)
-
-    cb = plt.colorbar()
-    loc = np.arange(0, max(label), max(label) / float(len(colors)))
-    cb.set_ticks(loc)
-    cb.set_ticklabels(['C1-setosa', 'C2-versicolor', 'C3-virginica'])
-    plt._show()
-
-
 def main(numOfHiddenLayers, numOfNeurons, alpha, epochs, use_bias_bool, activationFunction):
     epochs = int(epochs)
     numOfHiddenLayers = int(numOfHiddenLayers)
     numOfNeurons = np.array(numOfNeurons)
     numOfNeurons = numOfNeurons.astype(int)
+    numOfNeurons = np.append(numOfNeurons, 3)
     use_bias_bool = int(use_bias_bool)  # boolean
     alpha = float(alpha)
-    print("Bias", use_bias_bool)
-    print("activationFunction", activationFunction)
-    Model = perceptronModel([X1_train, X2_train, X3_train, X4_train], [X1_test, X2_test, X3_test, X4_test],
-                            labeled_Y_train, labeled_Y_test, numOfHiddenLayers, numOfNeurons, alpha, epochs,
+    # print("Bias", use_bias_bool)
+    # print("activationFunction", activationFunction)
+
+    train_X = np.array([X1_train, X2_train, X3_train, X4_train])
+    test_X = np.array([X1_test, X2_test, X3_test, X4_test])
+
+    # print("train x", train_X.shape)
+    # print("test x", test_X.shape)
+
+    Model = perceptronModel(train_X, test_X, labeled_Y_train, labeled_Y_test, numOfHiddenLayers, numOfNeurons, alpha, epochs,
                             use_bias_bool, activationFunction)
     if use_bias_bool == 0:
         bias = 0
 
+    # Model.training()
     Model.firstForward()
-
+    Model.backward()
+    Model.secondForward()
     # accuracy, testing_predictions = Model.testing()
 
     # print("Overall Accuracy is:", accuracy, "%")
