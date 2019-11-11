@@ -1,10 +1,10 @@
-import matplotlib
+# import keras.utils as np_utils
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sn
+import tensorflow.keras.utils as np_utils
 from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
-import keras.utils as np_utils
 
 from perceptronModel import *
 
@@ -62,8 +62,8 @@ def load_data(data):
 
 def dataPreprocessing():
     df = readFile()
-    X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, \
-    X4_test, target_train, target_test = load_data(df)
+    X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, X4_test, target_train, target_test = load_data(
+        df)
 
     X1_train = X1_train.astype(float)
     X2_train = X2_train.astype(float)
@@ -123,7 +123,7 @@ def draw_confusion_matrix(y_test, y_predict, c1, c2):
     confusion = confusion_matrix(y_test, y_predict)
     print("confusion")
     print(confusion)
-    #
+
     # print("lbls")
     # print(lbls)
 
@@ -147,28 +147,16 @@ def main(numOfHiddenLayers, numOfNeurons, alpha, epochs, use_bias_bool, activati
     numOfNeurons = np.append(numOfNeurons, 3)
     use_bias_bool = int(use_bias_bool)  # boolean
     alpha = float(alpha)
-    # print("Bias", use_bias_bool)
-    # print("activationFunction", activationFunction)
 
     train_X = np.array([X1_train, X2_train, X3_train, X4_train])
     test_X = np.array([X1_test, X2_test, X3_test, X4_test])
 
-    # print("train x", train_X.shape)
-    # print("test x", test_X.shape)
-
-    Model = perceptronModel(train_X, test_X, labeled_Y_train, labeled_Y_test, numOfHiddenLayers, numOfNeurons, alpha, epochs,
-                            use_bias_bool, activationFunction)
+    Model = perceptronModel(train_X, test_X, labeled_Y_train, labeled_Y_test, numOfHiddenLayers, numOfNeurons, alpha,
+                            epochs, use_bias_bool, activationFunction)
     if use_bias_bool == 0:
         bias = 0
 
-    # Model.training()
-    Model.firstForward()
-    Model.backward()
-    Model.secondForward()
-    # accuracy, testing_predictions = Model.testing()
+    Model.training()
 
-    # print("Overall Accuracy is:", accuracy, "%")
-
-    # draw_confusion_matrix(test_Y, testing_predictions, class1, class2)
-
-    print("-----------------------------------------")
+    accuracy = Model.testing()
+    print("Overall Accuracy is:", accuracy, "%")
