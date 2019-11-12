@@ -103,36 +103,14 @@ X1_train, X1_test, X2_train, X2_test, X3_train, X3_test, X4_train, X4_test, labe
 # endregion
 
 
-def draw_confusion_matrix(y_test, y_predict, c1, c2):
-    lbls = []
-
-    if c1 == -1:
-        lbls.append("Iris-setosa")
-    elif c1 == 0:
-        lbls.append("Iris-versicolor")
-    elif c1 == 1:
-        lbls.append("Iris-virginica")
-
-    if c2 == -1:
-        lbls.append("Iris-setosa")
-    elif c2 == 0:
-        lbls.append("Iris-versicolor")
-    elif c2 == 1:
-        lbls.append("Iris-virginica")
+def draw_confusion_matrix(y_test, y_predict):
+    lbls = ["Iris-setosa", "Iris-versicolor", "Iris-virginica"]
 
     confusion = confusion_matrix(y_test, y_predict)
-    print("confusion")
+    print("Confusion Matrix:")
     print(confusion)
 
-    # print("lbls")
-    # print(lbls)
-
-    df_cm = pd.DataFrame(list(confusion), index=[i for i in lbls],
-                         columns=[i for i in lbls])
-
-    # print("\ndf_cm", df_cm)
-    # print("df_cm shape", df_cm.shape)
-    # print("df_cm type", type(df_cm))
+    df_cm = pd.DataFrame(list(confusion), index=[i for i in lbls], columns=[i for i in lbls])
 
     plt.figure(figsize=(10, 7))
     sn.heatmap(df_cm, annot=True)
@@ -153,10 +131,14 @@ def main(numOfHiddenLayers, numOfNeurons, alpha, epochs, use_bias_bool, activati
 
     Model = perceptronModel(train_X, test_X, labeled_Y_train, labeled_Y_test, numOfHiddenLayers, numOfNeurons, alpha,
                             epochs, use_bias_bool, activationFunction)
-    if use_bias_bool == 0:
-        bias = 0
 
     Model.training()
 
-    accuracy = Model.testing()
+    accuracy, y_prediction = Model.testing()
     print("Overall Accuracy is:", accuracy, "%")
+
+    # de 3shan trg3hom tany l arkam
+    y_prediction = [np.argmax(y, axis=None, out=None) for y in Model.savedPredictonsTest[-1]]
+    y_test = [np.argmax(y, axis=None, out=None) for y in labeled_Y_test]
+
+    draw_confusion_matrix(y_test, y_prediction)

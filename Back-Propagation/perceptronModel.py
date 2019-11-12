@@ -13,7 +13,6 @@ class perceptronModel:
         self.epochs = epochs
         self.use_bias_bool = use_bias_bool
         self.weights = []
-        self.bias = np.array([])
         self.alpha = alpha
         self.test_predictions = []
         self.accuracy = 0
@@ -39,24 +38,25 @@ class perceptronModel:
         return 1 - pow(dx, 2)
 
     def initialization(self):
+        if self.use_bias_bool == 1:
+            self.train_vector = np.r_[np.ones((1, 90)), self.train_vector]
+            self.test_vector = np.r_[np.ones((1, 60)), self.test_vector]
+
         for i in range(self.numOfHiddenLayers + 1):  # +1: hidden layers + output layer
             if i == 0:
                 self.weights.append(np.random.rand(self.numOfNeurons[i], self.train_vector.shape[0]))
             else:
                 self.weights.append(np.random.rand(self.numOfNeurons[i], self.numOfNeurons[i - 1]))
 
-            # print("Weights", self.weights[i].shape)
         self.weights = np.asarray(self.weights)
-        if (self.use_bias_bool == 1):
-            self.bias = np.array(np.random.rand(self.numOfHiddenLayers + 1, 1))
 
     def firstForward(self):
         for HL in range(self.numOfHiddenLayers + 1):
             if self.use_bias_bool == 1:
                 if HL == 0:
-                    prediction = np.dot(self.train_vector.T, self.weights[HL].T) + self.bias[HL]
+                    prediction = np.dot(self.train_vector.T, self.weights[HL].T)  # + self.bias[HL]
                 else:
-                    prediction = np.dot(self.savedPredictons[HL - 1], self.weights[HL].T) + self.bias[HL]
+                    prediction = np.dot(self.savedPredictons[HL - 1], self.weights[HL].T)  # + self.bias[HL]
 
             else:
                 if HL == 0:
@@ -68,26 +68,21 @@ class perceptronModel:
             self.savedPredictons.append(prediction)
 
     def backward(self):  # calculate gradient for each layer
-
         # calculate error at the output layer
         if self.activationFunction == "Sigmoid":
             outputLayerActivation = self.sigmoid(self.savedPredictons[-1])
         else:
             outputLayerActivation = self.tanh(self.savedPredictons[-1])
         output_e = self.Y_train - outputLayerActivation
-        output_E = np.power(output_e, 2) * 0.5  # el mafrod vector wala rqm
 
         # calculate output gradient:
         # partial E / partial W_kj
 
         if self.activationFunction == "Sigmoid":
-            self.outputLayerGradient = output_e * self.sigmoidPrime(outputLayerActivation) * self.sigmoid(
-                self.savedPredictons[-1])
+            self.outputLayerGradient = output_e * self.sigmoidPrime(outputLayerActivation)
         else:
-            self.outputLayerGradient = output_e * self.tanhPrime(outputLayerActivation) * self.tanh(
-                self.savedPredictons[-1])
+            self.outputLayerGradient = output_e * self.tanhPrime(outputLayerActivation)
 
-        # self.outputLayerGradient = outputLocalGradient * self.savedPredictons[-1]
         # hwa msh el mafrod *Zj y3ne el prediction b3d mayd5ol 3la el activation?? (e fl f prime fl zj)
         self.gradients.append(self.outputLayerGradient)
         index = 0
@@ -106,23 +101,17 @@ class perceptronModel:
             index += 1
 
     def secondForward(self):  # update weights
-
         self.gradients.reverse()
         for i in range(len(self.gradients)):
             if i == 0:
-
                 self.weights[i] = self.weights[i] + (self.alpha * np.dot(self.gradients[i].T, self.train_vector.T))
-                if self.use_bias_bool == 1:
-                    self.bias[i] = self.bias[i] + (self.alpha * np.dot(self.gradients[i].T, self.train_vector.T))
             else:
                 if self.activationFunction == "Sigmoid":
-                    Zj = self.sigmoid(self.savedPredictons[i - 1])  # leeh prime??
+                    Zj = self.sigmoid(self.savedPredictons[i - 1])
                 else:
                     Zj = self.tanh(self.savedPredictons[i - 1])
 
                 self.weights[i] = self.weights[i] + (self.alpha * np.dot(self.gradients[i].T, Zj))
-                if self.use_bias_bool == 1:
-                    self.bias[i] = self.bias[i] + self.alpha * np.dot(self.gradients[i].T, Zj.T)
 
     def training(self):
         self.initialization()
@@ -139,9 +128,9 @@ class perceptronModel:
         for HL in range(self.numOfHiddenLayers + 1):
             if self.use_bias_bool == 1:
                 if HL == 0:
-                    prediction = np.dot(self.test_vector.T, self.weights[HL].T) + self.bias[HL]
+                    prediction = np.dot(self.test_vector.T, self.weights[HL].T)  # + self.bias[HL]
                 else:
-                    prediction = np.dot(self.savedPredictonsTest[HL - 1], self.weights[HL].T) + self.bias[HL]
+                    prediction = np.dot(self.savedPredictonsTest[HL - 1], self.weights[HL].T)  # + self.bias[HL]
 
             else:
                 if HL == 0:
@@ -150,13 +139,18 @@ class perceptronModel:
                     e = np.asarray(self.savedPredictonsTest[HL - 1])
                     prediction = np.dot(e, self.weights[HL].T)
 
+            if self.activationFunction == "Sigmoid":
+                prediction = self.sigmoid(prediction)
+            else:
+                prediction = self.tanh(prediction)
+
             self.savedPredictonsTest.append(prediction)
         if self.activationFunction == "Sigmoid":
             testRes = self.sigmoid(self.savedPredictonsTest[-1])
         else:
             testRes = self.tanh(self.savedPredictonsTest[-1])
 
-        print("RESULT", testRes)
+        # print("RESULT before max", testRes)
         for i in range(testRes.shape[0]):
             testRes[i, :] = np.where(testRes[i, :] == max(testRes[i, :]), 1, 0)
             if np.array_equal(testRes[i, :], self.Y_test[i, :]):
@@ -165,4 +159,4 @@ class perceptronModel:
 
         self.accuracy = (correct / testRes.shape[0]) * 100
 
-        return self.accuracy
+        return self.accuracy, self.savedPredictonsTest[-1]

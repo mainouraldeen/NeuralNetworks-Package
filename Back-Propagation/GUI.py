@@ -65,20 +65,20 @@ runButton.place(x=350, y=200)
 numOfHiddenLayerstextBox = Entry(top)
 numOfHiddenLayerstextBox.place(x=220, y=50)
 numOfHiddenLayerstextBox.focus_set()
-numOfHiddenLayerstextBox.insert(0, "3")
+numOfHiddenLayerstextBox.insert(0, "2")
 
 numOfNeuornstextBox = Entry(top)
 numOfNeuornstextBox.place(x=550, y=50)
-numOfNeuornstextBox.insert(0, "2,5,8")
+numOfNeuornstextBox.insert(0, "2,5")
 
 LearningRatetextBox = Entry(top)
 LearningRatetextBox.place(x=140, y=100)
 LearningRatetextBox.focus_set()
-LearningRatetextBox.insert(0, "0.001")
+LearningRatetextBox.insert(0, "0.01")
 
 EpochstextBox = Entry(top)
 EpochstextBox.place(x=460, y=100)
-EpochstextBox.insert(0, "20")
+EpochstextBox.insert(0, "20000")
 
 # endregion
 
@@ -89,7 +89,7 @@ biasDropBox = Frame(top)
 biasDropBox.place(x=460, y=150)
 biasvar = StringVar(top)
 choices = {'0', '1'}
-biasvar.set('0')  # set the default option
+biasvar.set('1')  # set the default option
 popupMenu = OptionMenu(biasDropBox, biasvar, *choices)
 popupMenu.grid(row=2, column=1)
 

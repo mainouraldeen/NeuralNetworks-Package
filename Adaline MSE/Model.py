@@ -118,7 +118,10 @@ def draw_confusion_matrix(y_test, y_predict, c1, c2):
         lbls.append("Iris-versicolor")
     elif c2 == 1:
         lbls.append("Iris-virginica")
-
+    print("y predict", y_predict)
+    print(" len y predict", len(y_predict))
+    print("y_test", y_test)
+    print("y_test", len(y_test))
     confusion = confusion_matrix(y_test, y_predict)
     print("confusion")
     print(confusion)
