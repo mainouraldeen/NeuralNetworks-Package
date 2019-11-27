@@ -137,7 +137,7 @@ def main(numOfHiddenLayers, numOfNeurons, alpha, epochs, use_bias_bool, activati
     accuracy, y_prediction = Model.testing()
     print("Overall Accuracy is:", accuracy, "%")
 
-    # de 3shan trg3hom tany l arkam
+    # 3shan trg3hom tany l arkam
     y_prediction = [np.argmax(y, axis=None, out=None) for y in Model.savedPredictonsTest[-1]]
     y_test = [np.argmax(y, axis=None, out=None) for y in labeled_Y_test]
 
